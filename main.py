@@ -1,5 +1,6 @@
 import streamlit as st
 import yfinance as fn
+import datetime as dt
 
 st.write(""" # Yahoo Finance App with *Streamlit*""")
 
@@ -44,7 +45,7 @@ if ticker != "Select a stock":
 
     # select different info sections
     category_list = ["Select a category ", "Company Business Summary", "Key Financial Metrics", "Full Company Info",
-                     "Current Data", "Historical Data Chart"]
+                     "Historical Data", "Historical Data Chart"]
     category = st.selectbox("Select a category ", category_list)
 
     if category == "Company Business Summary":
@@ -68,12 +69,15 @@ if ticker != "Select a stock":
         st.write(stock.info)
         print(stock.info)
 
-    elif category == "Current Data":
-        # fetch data from dataframe
-        finance_data = fn.download(
-            ticker, start="2023-01-01", end="2023-09-01")
+    elif category == "Historical Data":
+        # ask user input for start date and end date
+        start = st.date_input("Specify a start date ")
+        end = st.date_input("Specify an end date ")
 
-        # Dataframe
+        # fetch dataframe within the range
+        finance_data = fn.download(
+            ticker, start, end)
+
         st.write(finance_data)
 
     elif category == "Historical Data Chart":
