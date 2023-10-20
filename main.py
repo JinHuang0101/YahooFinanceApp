@@ -32,12 +32,20 @@ if ticker != "Select a stock":
     <p class="a">{ticker}</p>
     """
     st.markdown(html_str, unsafe_allow_html=True)
+    stock = fn.Ticker(ticker)
+
+    # output current market price of the ticker:
+    st.write("Regular Market Previous Close: ",
+             stock.info["regularMarketPreviousClose"])
+    st.write("Regular Market Open: ", stock.info["regularMarketOpen"])
+    st.write("Regular Market Day Low: ", stock.info["regularMarketDayLow"])
+    st.write("Regular Market Day Hight: ", stock.info["regularMarketDayHigh"])
+    st.write("Regular Market Volume: ", stock.info["regularMarketVolume"])
 
     # select different info sections
     category_list = ["Select a category ", "Company Business Summary", "Key Financial Metrics", "Full Company Info",
                      "Current Data", "Historical Data Chart"]
     category = st.selectbox("Select a category ", category_list)
-    stock = fn.Ticker(ticker)
 
     if category == "Company Business Summary":
         st.write("Country: ", stock.info["country"])
